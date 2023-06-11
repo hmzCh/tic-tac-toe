@@ -1,11 +1,9 @@
 const gameboardModule = (() => {
-    let gameboard = ['O', ' ', 'X', ' ', ' ', ' ', ' ', ' ', ' ']
+    let gameboard = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
 
     return {gameboard}
 
 }) ();
-
-// gameboardModule.gameboard[0] = 'X';
 
 const playerFactory = (name, sign) => {
     return {name, sign}
@@ -13,6 +11,7 @@ const playerFactory = (name, sign) => {
   
 const playerOne = playerFactory("Bob", "X")
 const playerTwo = playerFactory("Rob", "O")
+let currentPlayer = playerOne
 
 const renderGameboard = (gameboard) => {
     for (let i = 0; i < gameboard.length; i++) {
@@ -21,4 +20,17 @@ const renderGameboard = (gameboard) => {
     }
 };
 
-renderGameboard(gameboardModule.gameboard)
+for (let i = 0; i < gameboardModule.gameboard.length; i++) {
+    const cell = document.querySelector(`#cell-${i}`);
+    cell.addEventListener("click", function() {
+        if (gameboardModule.gameboard[i] == " ") {          //Checks that the cell hasn't already been marked
+            gameboardModule.gameboard[i] = currentPlayer.sign
+            renderGameboard(gameboardModule.gameboard)
+            if (currentPlayer == playerOne) {
+                currentPlayer = playerTwo
+            } else {
+                currentPlayer = playerOne
+        }}
+
+    });
+}
