@@ -18,6 +18,8 @@ const playerFactory = (name, sign) => {
 const gameModule = (() => {
     let playerOne = playerFactory("Bob", "X");
     let playerTwo = playerFactory("Rob", "O");
+    // let playerOne = playerFactory(prompt("Please enter the first player's name"), "X");
+    // let playerTwo = playerFactory(prompt("Please enter the second player's name"), "O");
     let currentPlayer = playerOne;
 
     let setupEventListeners = (() => {
