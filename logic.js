@@ -20,6 +20,19 @@ const gameModule = (() => {
     let playerTwo = playerFactory("Rob", "O");
     let currentPlayer = playerOne;
 
+    let setupEventListeners = (() => {
+        for (let i = 0; i < gameboardModule.gameboard.length; i++) {
+            const cell = document.querySelector(`#cell-${i}`);
+            cell.addEventListener("click", function () {
+                if (gameboardModule.gameboard[i] == " ") {      //Checks that the cell hasn't already been marked
+                    gameboardModule.gameboard[i] = currentPlayer.sign;
+                    gameboardModule.renderGameboard();
+                    switchPlayer();
+                }
+            });
+        }
+    });
+
     let switchPlayer = () => {
         if (currentPlayer == playerOne) {
             currentPlayer = playerTwo;
@@ -29,24 +42,14 @@ const gameModule = (() => {
     };
 
     return {
-        playerOne,
-        playerTwo,
-        get currentPlayer() {       //I need a getter function for currentPlayer but not for playerOne or playerTwo because the value of those two don't change during the game but currentPlayer does
-            return currentPlayer;
-        },
-        switchPlayer,
+        // playerOne,
+        // playerTwo,
+        // get currentPlayer() {
+        //     return currentPlayer;
+        // },
+        // switchPlayer,
+        setupEventListeners
     };
 })();
 
-
-
-for (let i = 0; i < gameboardModule.gameboard.length; i++) {
-    const cell = document.querySelector(`#cell-${i}`);
-    cell.addEventListener("click", function() {
-        if (gameboardModule.gameboard[i] == " ") {          //Checks that the cell hasn't already been marked
-            gameboardModule.gameboard[i] = gameModule.currentPlayer.sign
-            gameboardModule.renderGameboard()
-            gameModule.switchPlayer()
-        }
-    });
-}
+gameModule.setupEventListeners(); //could aternatively call setUpEventListeners from inside gameModule & not return anything
