@@ -44,6 +44,7 @@ const gameModule = (() => {
             let [a, b, c] = winningCombinations[i];
             if (gameboard[a] !== ' ' && gameboard[a] === gameboard[b] && gameboard[a] === gameboard[c]) {
                 alert(`${currentPlayer.name} wins!`);
+                return
             }
         }
 
