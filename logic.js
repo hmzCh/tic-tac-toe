@@ -29,11 +29,28 @@ const gameModule = (() => {
                 if (gameboardModule.gameboard[i] == " ") {      //Checks that the cell hasn't already been marked
                     gameboardModule.gameboard[i] = currentPlayer.sign;
                     gameboardModule.renderGameboard();
+                    checkWinner()
                     switchPlayer();
                 }
             });
         }
     });
+
+    let checkWinner = () => {
+        let gameboard = gameboardModule.gameboard;
+        let winningCombinations = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
+
+        for (let i = 0; i < winningCombinations.length; i++) {
+            let [a, b, c] = winningCombinations[i];
+            if (gameboard[a] !== ' ' && gameboard[a] === gameboard[b] && gameboard[a] === gameboard[c]) {
+                alert(`${currentPlayer.name} wins!`);
+            }
+        }
+
+        if (!gameboard.includes(' ')) {
+            alert("It's a draw!");
+        }
+    };
 
     let switchPlayer = () => {
         if (currentPlayer == playerOne) {
@@ -54,4 +71,4 @@ const gameModule = (() => {
     };
 })();
 
-gameModule.setupEventListeners(); //could aternatively call setUpEventListeners from inside gameModule & not return anything
+gameModule.setupEventListeners(); //could alternatively call setUpEventListeners from inside gameModule & not return anything
