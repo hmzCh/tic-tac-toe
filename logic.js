@@ -22,19 +22,22 @@ const gameModule = (() => {
     // let playerTwo = playerFactory(prompt("Please enter the second player's name"), "O");
     let currentPlayer = playerOne;
     let messageBox = document.querySelector('#messageBox')
+    let disableMarking = false
     messageBox.textContent = currentPlayer.name + "'s turn"
 
     let setupEventListeners = (() => {
         for (let i = 0; i < gameboardModule.gameboard.length; i++) {
             const cell = document.querySelector(`#cell-${i}`);
             cell.addEventListener("click", function () {
-                if (gameboardModule.gameboard[i] == " ") {      //Checks that the cell hasn't already been marked
+                if (gameboardModule.gameboard[i] == " " && disableMarking == false) {      //Checks that the cell hasn't already been marked
                     gameboardModule.gameboard[i] = currentPlayer.sign;
                     gameboardModule.renderGameboard();
                     if (checkWinner() == false) {
                         switchPlayer();
                         messageBox.textContent = currentPlayer.name + "'s turn";
-                    };
+                    } else {
+                        disableMarking = true
+                    }
                 }
             });
         }
@@ -66,6 +69,13 @@ const gameModule = (() => {
             currentPlayer = playerOne;
         }
     };
+
+    let resetGame = () => {
+        gameboardModule.gameboard = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+        gameboardModule.renderGameboard()
+        currentPlayer = playerOne
+        disableMarking = false
+    }
 
     return {
         // playerOne,
