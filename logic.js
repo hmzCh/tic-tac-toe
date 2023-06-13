@@ -16,25 +16,32 @@ const playerFactory = (name, sign) => {
 }
 
 const gameModule = (() => {
-    let playerOne = playerFactory("Bob", "X");
-    let playerTwo = playerFactory("Rob", "O");
+    let playerOne = playerFactory('Player One', 'X');
+    let playerTwo = playerFactory('Player Two', 'O');
     // let playerOne = playerFactory(prompt("Please enter the first player's name"), "X");
     // let playerTwo = playerFactory(prompt("Please enter the second player's name"), "O");
     let currentPlayer = playerOne;
     let messageBox = document.querySelector('#messageBox')
+    let restartButton = document.querySelector('#restartButton')
     let disableMarking = false
-    messageBox.textContent = currentPlayer.name + "'s turn"
 
-    let setupEventListeners = (() => {
-        for (let i = 0; i < gameboardModule.gameboard.length; i++) {
+    let setupGame = (() => {
+
+        updateMessageBox()
+
+        restartButton.addEventListener("click", function () {       //Sets up the event listener for the restart button
+            resetGame()
+        })
+
+        for (let i = 0; i < gameboardModule.gameboard.length; i++) {                       //Sets up the event listener for the cells
             const cell = document.querySelector(`#cell-${i}`);
             cell.addEventListener("click", function () {
-                if (gameboardModule.gameboard[i] == " " && disableMarking == false) {      //Checks that the cell hasn't already been marked
+                if (gameboardModule.gameboard[i] == " " && disableMarking == false) {      //Checks that the cell hasn't already been marked & that the game hasn't ended
                     gameboardModule.gameboard[i] = currentPlayer.sign;
                     gameboardModule.renderGameboard();
                     if (checkWinner() == false) {
                         switchPlayer();
-                        messageBox.textContent = currentPlayer.name + "'s turn";
+                        updateMessageBox()
                     } else {
                         disableMarking = true
                     }
@@ -42,6 +49,8 @@ const gameModule = (() => {
             });
         }
     });
+
+    let updateMessageBox = (() => {messageBox.textContent = currentPlayer.name + "'s turn"})
 
     let checkWinner = () => {
         let gameboard = gameboardModule.gameboard;
@@ -56,7 +65,8 @@ const gameModule = (() => {
         }
 
         if (!gameboard.includes(' ')) {
-            messageBox.textContent = "It's a draw";
+            messageBox.textContent = "It's a draw.";
+            return true
         }
 
         return false
@@ -71,21 +81,18 @@ const gameModule = (() => {
     };
 
     let resetGame = () => {
-        gameboardModule.gameboard = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+        for (let i = 0; i < gameboardModule.gameboard.length; i++){
+            gameboardModule.gameboard[i] = ' '
+        }
         gameboardModule.renderGameboard()
         currentPlayer = playerOne
+        updateMessageBox()
         disableMarking = false
     }
 
     return {
-        // playerOne,
-        // playerTwo,
-        // get currentPlayer() {
-        //     return currentPlayer;
-        // },
-        // switchPlayer,
-        setupEventListeners
+        setupGame: setupGame
     };
 })();
 
-gameModule.setupEventListeners(); //could alternatively call setUpEventListeners from inside gameModule & not return anything
+gameModule.setupGame(); //could alternatively call setUpEventListeners from inside gameModule & not return anything
