@@ -5,29 +5,40 @@
 }
 
 body{
+    height: 70vh;
+    padding: 30px;
     font-family: roboto, sans-serif;
-    background-color: rgb(231, 231, 231);
+    background-color: #F9FBE7;
     display: flex;
-    flex-direction: row;
-    justify-content: center;
-    /* align-items: center; */
-    /* align-content: center; */
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
 }
 
-table {
-    margin: 100px;
+#messageBox {
+    font-size: 34px;
+    font-weight: bold;
+    color: #00FFCA;
+}
+
+button {
+    background-color: #F9FBE7;
+    border: none;
+    font-size: 34px;
+    font-weight: bolder;
+    color: #d8d5bc;
+}
+
+button:hover {
+    color: #00FFCA;
 }
 
 td {
     width: 100px;
     height: 100px;
-    border: solid 2px black;
+    border: solid 2px #d8d5bc;
     font-size: 50px;
+    font-weight: bolder;
+    color: #00FFCA;
     text-align: center;
-}
-
-div{
-    width: 100px;
-    height: 100px;
-    background-color: blueviolet;
 }

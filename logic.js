@@ -21,6 +21,8 @@ const gameModule = (() => {
     // let playerOne = playerFactory(prompt("Please enter the first player's name"), "X");
     // let playerTwo = playerFactory(prompt("Please enter the second player's name"), "O");
     let currentPlayer = playerOne;
+    let messageBox = document.querySelector('#messageBox')
+    messageBox.textContent = currentPlayer.name + "'s turn"
 
     let setupEventListeners = (() => {
         for (let i = 0; i < gameboardModule.gameboard.length; i++) {
@@ -29,8 +31,10 @@ const gameModule = (() => {
                 if (gameboardModule.gameboard[i] == " ") {      //Checks that the cell hasn't already been marked
                     gameboardModule.gameboard[i] = currentPlayer.sign;
                     gameboardModule.renderGameboard();
-                    checkWinner()
-                    switchPlayer();
+                    if (checkWinner() == false) {
+                        switchPlayer();
+                        messageBox.textContent = currentPlayer.name + "'s turn";
+                    };
                 }
             });
         }
@@ -43,14 +47,16 @@ const gameModule = (() => {
         for (let i = 0; i < winningCombinations.length; i++) {
             let [a, b, c] = winningCombinations[i];
             if (gameboard[a] !== ' ' && gameboard[a] === gameboard[b] && gameboard[a] === gameboard[c]) {
-                alert(`${currentPlayer.name} wins!`);
-                return
+                messageBox.textContent = currentPlayer.name + "'s wins!";
+                return true
             }
         }
 
         if (!gameboard.includes(' ')) {
-            alert("It's a draw!");
+            messageBox.textContent = "It's a draw";
         }
+
+        return false
     };
 
     let switchPlayer = () => {
