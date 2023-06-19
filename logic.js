@@ -59,7 +59,7 @@ const gameModule = (() => {
         for (let i = 0; i < winningCombinations.length; i++) {;
             let [a, b, c] = winningCombinations[i];
             if (gameboard[a] !== ' ' && gameboard[a] === gameboard[b] && gameboard[a] === gameboard[c]) {;
-                messageBox.textContent = currentPlayer.name + "'s wins!";
+                messageBox.textContent = currentPlayer.name + " wins!";
                 return true
             }
         }
